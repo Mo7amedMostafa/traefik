@@ -1,0 +1,45 @@
+http:
+  middlewares:
+    headerpolicy:
+      headers:
+        stsPreload: "true"
+        stsIncludeSubdomains: "true"
+        stsSeconds: "63072000"
+        browserxssfilter: "true"
+        framedeny: "true"
+        customresponseheaders:
+          server: ""
+
+    auth:
+      basicauth:
+        users: "test:$$2y$$05$$DpwJtAT13Y0Xrv4hD6AbOOsZJhUTxGY/6VtKsMTTnnJ0DyHifC8um"
+        # create password from command below and paste it above
+        # echo $(htpasswd -nB test) | sed -e s/\\$/\\$\\$/g
+
+    ipwhitelist:
+      ipwhitelist:
+        sourcerange: "x.x.x.x/32, x.x.x.x/32"
+
+    replacepath:
+      replacepath:
+        path: "/"
+
+      my-plugin-simplecache:
+                  plugin:
+                      plugin-simplecache:
+                          path: /tmp
+
+tls:
+  options:
+    tls:
+      minVersion: VersionTLS12
+      preferServerCipherSuites: true
+      cipherSuites:
+        # Recommended ciphers for TLSv1.2
+        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+        # Recommended ciphers for TLSv1.3
+        - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
